@@ -1,8 +1,5 @@
 /*
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
- * Not a Contribution.
- *
- * Copyright (C) 2006 The Android Open Source Project
+ * Copyright (c) 2014, The CyanogenMod Project. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +14,7 @@
  * limitations under the License.
  */
 
+
 package com.android.internal.telephony;
 
 import static com.android.internal.telephony.RILConstants.*;
@@ -29,6 +27,7 @@ import android.os.Parcel;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.Rlog;
 import android.telephony.SignalStrength;
+import com.android.internal.telephony.RIL;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,9 +41,50 @@ import com.android.internal.telephony.uicc.IccCardStatus;
  *
  * {@hide}
  */
-public class Zenfone2RIL extends RIL {
-    public Zenfone2RIL(Context context, int networkMode, int cdmaSubscription, Integer instanceId) {
-        super(context, networkMode, cdmaSubscription, instanceId);
+public class Zenfone2RIL extends RIL implements CommandsInterface {
+
+    public Zenfone2RIL(Context context, int networkMode, int cdmaSubscription) {
+        super(context, networkMode, cdmaSubscription, null);
         mQANElements = 5;
+    }
+
+    public Zenfone2RIL(Context context, int preferredNetworkType,
+            int cdmaSubscription, Integer instanceId) {
+        super(context, preferredNetworkType, cdmaSubscription, instanceId);
+        mQANElements = 5;
+    }
+
+     @Override
+    public void setUiccSubscription(int slotId, int appIndex, int subId,
+				    int subStatus, Message result) {
+	    if (RILJ_LOGD) riljLog("setUiccSubscription" + slotId + " " + appIndex + " " + subId + " " + subStatus);
+	    AsyncResult.forMessage(result, 0, null);
+	    result.sendToTarget();
+	    if (subStatus == 1) {
+		    // Subscription changed: enabled
+		    if (mSubscriptionStatusRegistrants != null) {
+			    mSubscriptionStatusRegistrants.notifyRegistrants(
+									     new AsyncResult (null, new int[] {1}, null));
+		    }
+	    } else if (subStatus == 0) {
+		    // Subscription changed: disabled
+		    if (mSubscriptionStatusRegistrants != null) {
+			    mSubscriptionStatusRegistrants.notifyRegistrants(
+									     new AsyncResult (null, new int[] {0}, null));
+		    }
+	    }
+    }
+
+
+    public void setDataSubscription(Message response) {
+	   // Fake the message
+	    AsyncResult.forMessage(response, 0, null);
+	    response.sendToTarget();
+    }
+
+    public void setDefaultVoiceSub(int subIndex, Message response) {
+	    // Fake the message
+	    AsyncResult.forMessage(response, 0, null);
+	    response.sendToTarget();
     }
 }
