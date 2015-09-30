@@ -114,7 +114,7 @@ on boot
     setprop persist.service.cwsmgr.nortcoex 0
 
 # Set this property so surfaceflinger is not started by system_init
-    setprop system_init.startsurfaceflinger 0
+#    setprop system_init.startsurfaceflinger 0
 
 # Reboot in COS on shutdown request when charger is plugged
     setprop ro.rebootchargermode true
