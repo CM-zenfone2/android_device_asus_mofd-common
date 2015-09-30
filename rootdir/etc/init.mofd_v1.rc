@@ -438,7 +438,7 @@ service cdrom /system/bin/sh /system/etc/init.cdrom.sh
 service_redefine media /system/bin/mediaserver
     class main
     user media
-    group audio camera inet net_bt net_bt_admin net_bw_acct drmrpc mediadrm radio system
+    group audio camera inet net_bt net_bt_admin net_bw_acct drmrpc mediadrm radio
     ioprio rt 4
 
 service_redefine keystore /system/bin/keystore /data/misc/keystore
