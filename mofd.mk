@@ -49,7 +49,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Camera
 PRODUCT_PACKAGES += \
-    libcam
+    libcam \
+    libmofd_symbols
 
 # Charger
 PRODUCT_PACKAGES += \
