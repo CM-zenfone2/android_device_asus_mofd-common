@@ -169,8 +169,9 @@ BOARD_PROVIDES_LIBRIL := true
 BOARD_CANT_BUILD_RECOVERY_FROM_BOOT_PATCH := true
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
 COMMON_GLOBAL_CFLAGS += -DNO_SECURE_DISCARD
-TARGET_RECOVERY_FSTAB := device/asus/mofd-common/rootdir/etc/fstab.mofd_v1
+TARGET_RECOVERY_FSTAB := device/asus/mofd-common/recovery/root/etc/twrp.fstab
 TARGET_RECOVERY_DEVICE_MODULES := libinit_mofd librecovery_updater_mofd
+TARGET_RECOVERY_DEVICE_DIRS += device/asus/mofd-common
 
 # Security
 BUILD_WITH_SECURITY_FRAMEWORK := chaabi_token
@@ -181,6 +182,19 @@ BOARD_SEPOLICY_DIRS += device/asus/mofd-common/sepolicy
 
 # Tap-to-Wake
 TARGET_TAP_TO_WAKE_NODE := "/sys/devices/pci0000:00/0000:00:09.2/i2c-7/7-0038/ftsdclickmode"
+
+# TWRP
+TW_THEME := portrait_hdpi
+RECOVERY_GRAPHICS_USE_LINELENGTH := true
+RECOVERY_SDCARD_ON_DATA := true
+TW_INCLUDE_CRYPTO := true
+TW_EXCLUDE_SUPERSU := true
+TW_NO_USB_STORAGE := true
+BOARD_HAS_NO_REAL_SDCARD := true
+TW_INCLUDE_NTFS_3G := true
+BOARD_SUPPRESS_EMMC_WIPE := true
+RECOVERY_VARIANT := twrp
+TARGET_RECOVERY_FSTAB := device/asus/mofd-common/recovery/root/etc/twrp.fstab
 
 # Wifi
 BOARD_WLAN_DEVICE           := bcmdhd
@@ -196,3 +210,4 @@ WIFI_DRIVER_FW_PATH_STA     := "/system/etc/firmware/fw_bcmdhd.bin"
 
 # Use the non-open-source parts, if they're present
 -include vendor/asus/mofd-common/BoardConfigVendor.mk
+
